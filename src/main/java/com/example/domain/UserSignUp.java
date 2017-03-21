@@ -1,6 +1,5 @@
 package com.example.domain;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -9,13 +8,13 @@ import javax.validation.constraints.Size;
 public class UserSignUp {
     @Size(min = 1)
     private String firstname;
-    @NotNull
+    @Size(min = 1)
     private String mail;
-    @NotNull
+    @Size(min = 1)
     private String lastname;
-    @NotNull
+    @Size(min = 1)
     private String username;
-    @NotNull
+    @Size(min = 1)
     private String password;
 
 

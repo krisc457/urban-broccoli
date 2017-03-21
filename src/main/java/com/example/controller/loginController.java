@@ -56,7 +56,7 @@ public class loginController {
             return new ModelAndView("signUp").addObject("user", user);
         }
         repository.addUser(user.getFirstname(), user.getLastname(), user.getMail(), user.getUsername(), user.getPassword());
-        return new ModelAndView("game")
+        return new ModelAndView("lobby")
                 .addObject("FirstName", user.getFirstname())
                 .addObject("LastName", user.getLastname())
                 .addObject("Email", user.getMail())
