@@ -29,7 +29,7 @@ public class Repository implements IUser {
     public UserLogin getUserLogin(String Username, String Password) throws Exception {
 
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT Username, Password FROM [dbo].[User] WHERE Username= ? AND Password= ?")) {
+             PreparedStatement ps = conn.prepareStatement("SELECT Username, Password FROM [dbo].[ForumUser] WHERE Username= ? AND Password= ?")) {
             ps.setString(1, Username);
             ps.setString(2, Password);
 
@@ -45,7 +45,7 @@ public class Repository implements IUser {
     @Override
     public void addUser(String Firstname, String Lastname, String Email, String Username, String Password) throws Exception {
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[User](FirstName, LastName, Email, Username, Password)VALUES (?,?,?,?,?)", new String []{"Id"})) {
+             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[ForumUser](FirstName, LastName, Email, Username, Password)VALUES (?,?,?,?,?)", new String []{"Id"})) {
             ps.setString(1, Firstname);
             ps.setString(2, Lastname);
             ps.setString(3, Email);

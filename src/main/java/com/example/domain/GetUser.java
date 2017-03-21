@@ -6,10 +6,8 @@ package com.example.domain;
 public class GetUser {
     public final String username;
 
-
     public GetUser (String userName) {
         this.username = userName;
-
     }
 }
 
