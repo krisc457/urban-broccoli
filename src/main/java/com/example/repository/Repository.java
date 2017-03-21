@@ -7,9 +7,9 @@ import com.example.domain.UserSignUp;
 import org.apache.catalina.User;
 import org.springframework.beans.ExtendedBeanInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.jdbc.core.PreparedStatementCreator;
-//import org.springframework.jdbc.support.GeneratedKeyHolder;
-//import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -35,13 +35,15 @@ public class Repository implements IUser {
 
             try (ResultSet rs = ps.executeQuery()) {
 
-                    if (!rs.next()) return null;
-                    else return rsUserLogin(rs);
+                    if (!rs.next())
+                        return null;
+                    else
+                        return rsUserLogin(rs);
             } catch (SQLException e) {
                 throw new Exception(e);
             }
-
-    }}
+        }
+    }
     @Override
     public void addUser(String Firstname, String Lastname, String Email, String Username, String Password) throws Exception {
         try (Connection conn = dataSource.getConnection();
@@ -62,7 +64,6 @@ public class Repository implements IUser {
         return new UserLogin(
                 rs.getString("Username"),
                 rs.getString("Password")
-
         );
     }
     public UserSignUp rsUser(ResultSet rs) throws SQLException {
@@ -73,11 +74,7 @@ public class Repository implements IUser {
                 rs.getString("Username"),
                 rs.getString("Password")
         );
-
-
     }
-
-
-        }
+}
 
 

@@ -2,28 +2,16 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
-
     <meta charset="utf-8"/>
     <link href="/cssfil.css" rel="stylesheet" type="text/css"/>
     <title>Play</title>
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-        }
-
-        canvas {
-            background: #eee;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
 </head>
+
 <body>
-<h1>Let's play <span th:text="${UserName} "></span>!</h1>
+<h1>Välkomen till din lobby, <span th:text="${UserName} "></span>!</h1>
 <canvas id="myCanvas" width="480" height="320"></canvas>
 
-<script src="gamelogic.js" type="text/javascript"></script>
+<script src="data.js" type="text/javascript"></script>
 <a href="/index.html">
     <button class="buttons" type="submit">Logout</button>
 </a>

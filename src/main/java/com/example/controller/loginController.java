@@ -34,12 +34,12 @@ public class loginController {
         if (login == null)
             return new ModelAndView("redirect:/index.html");
 
-        return new ModelAndView("/game").addObject("UserName",Username);
+        return new ModelAndView("/lobby").addObject("UserName",Username);
     }
 
-    @GetMapping("/game")
+    @GetMapping("/lobby")
     public String form() {
-        return "game";
+        return "lobby";
     }
 
     @GetMapping("/newUser")

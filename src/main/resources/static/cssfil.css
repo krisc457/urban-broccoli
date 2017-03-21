@@ -1,7 +1,12 @@
 h1 {
     color: white;
     font-size: 38px;
-    font-family: "Segoe Script"
+    /*font-family: "Segoe Script"*/
+}
+h3 {
+    color: white;
+    margin-bottom: 10px;
+    margin-top: 20%;
 }
 
 body {
@@ -14,7 +19,7 @@ body {
 
 form {
     color: white;
-    font-family: "Segoe Script"
+    /*font-family: "Segoe Script"*/
 }
 
 a:link {
@@ -47,7 +52,6 @@ input {
     width: 25%}
 
 img{
-    margin-top:15% ;
+    /*margin-top:5%;*/
     width: 40%;
-
 }
