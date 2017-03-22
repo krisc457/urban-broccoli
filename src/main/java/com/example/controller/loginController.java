@@ -29,16 +29,20 @@ public class loginController {
     Repository repository;
 
     @PostMapping("/login")
-    public ModelAndView getUserLogin(@RequestParam String Username, @RequestParam String Password) throws Exception {
+    public ModelAndView getUserLogin(@RequestParam String Username, HttpSession session, @RequestParam String Password) throws Exception {
         UserLogin login = repository.getUserLogin(Username, Password);
-        if (login == null)
+        if (login == null) {
             return new ModelAndView("redirect:/index.html");
-
+        }
+            session.setAttribute("username", login.username);
         return new ModelAndView("/lobby").addObject("UserName",Username);
     }
 
     @GetMapping("/lobby")
-    public String form() {
+    public String form(HttpSession session) {
+        if (session.getAttribute("username") == null) {
+            return "redirect:/index.html";
+        }
         return "lobby";
     }
 
@@ -60,7 +64,7 @@ public class loginController {
                 .addObject("FirstName", user.getFirstname())
                 .addObject("LastName", user.getLastname())
                 .addObject("Email", user.getMail())
-                .addObject("Username", user.getUsername())
+                .addObject("UserName", user.getUsername())
                 .addObject("Password",user.getPassword());
     }
 }
