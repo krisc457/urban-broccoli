@@ -1,28 +1,22 @@
 package com.example.repository;
 
 
-import com.example.domain.GetUser;
+import com.example.domain.Post;
+import com.example.domain.Thread;
 import com.example.domain.UserLogin;
 import com.example.domain.UserSignUp;
-import org.apache.catalina.User;
-import org.springframework.beans.ExtendedBeanInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Observer;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class Repository implements IUser {
 
-   @Autowired
+    @Autowired
     DataSource dataSource;
 
 
@@ -35,19 +29,20 @@ public class Repository implements IUser {
 
             try (ResultSet rs = ps.executeQuery()) {
 
-                    if (!rs.next())
-                        return null;
-                    else
-                        return rsUserLogin(rs);
+                if (!rs.next())
+                    return null;
+                else
+                    return rsUserLogin(rs);
             } catch (SQLException e) {
                 throw new Exception(e);
             }
         }
     }
+
     @Override
     public void addUser(String Firstname, String Lastname, String Email, String Username, String Password) throws Exception {
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[ForumUser](FirstName, LastName, Email, Username, Password)VALUES (?,?,?,?,?)", new String []{"Id"})) {
+             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[ForumUser](FirstName, LastName, Email, Username, Password)VALUES (?,?,?,?,?)", new String[]{"Id"})) {
             ps.setString(1, Firstname);
             ps.setString(2, Lastname);
             ps.setString(3, Email);
@@ -60,12 +55,48 @@ public class Repository implements IUser {
         }
     }
 
+    @Override
+    public List<Thread> listThreads() throws Exception {
+        try (Connection conn = dataSource.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT threadId, title FROM [dbo].[threads]")) {
+            List<Thread> posts = new ArrayList<>();
+
+            while (rs.next())
+                posts.add(rsThread(rs));
+            return posts;
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
+    @Override
+    public List<Post> listPosts() throws Exception {
+        try (Connection conn = dataSource.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT postId, text, threadId, userId FROM [dbo].[posts]")) {
+            List<Post> posts = new ArrayList<>();
+
+            while (rs.next())
+                posts.add(rsPost(rs));
+            return posts;
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
+    @Override
+    public Thread getThread(long id) {
+        return null;
+    }
+
     private UserLogin rsUserLogin(ResultSet rs) throws SQLException {
         return new UserLogin(
                 rs.getString("Username"),
                 rs.getString("Password")
         );
     }
+
     public UserSignUp rsUser(ResultSet rs) throws SQLException {
         return new UserSignUp(
                 rs.getString("Firstname"),
@@ -75,6 +106,21 @@ public class Repository implements IUser {
                 rs.getString("Password")
         );
     }
-}
 
+    public Thread rsThread(ResultSet rs) throws SQLException {
+        return new Thread(
+                rs.getLong("threadId"),
+                rs.getString("title")
+        );
+    }
+
+    public Post rsPost(ResultSet rs) throws SQLException {
+        return new Post (
+                rs.getLong("postId"),
+                rs.getString("text"),
+                rs.getLong("threadId"),
+                rs.getLong("userId")
+        );
+    }
+}
 

@@ -13,6 +13,11 @@
     <h2>Vad vill du läsa om?</h2>
 
     <div class="child">
+        <ul>
+            <li th:each="thread : ${threads}">
+                <a th:href="@{/thread/{threadId}/(threadId=${thread.threadId})}" th:text="${thread.title}" />
+            </li>
+        </ul>
     </div>
     <a href="/index.html">
         <button class="buttons" type="submit">Logout</button>

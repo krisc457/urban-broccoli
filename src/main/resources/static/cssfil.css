@@ -60,6 +60,9 @@ img{
     /*margin-top:5%;*/
     width: 40%;
 }
+li {
+    list-style: none;
+}
 
 /*.flex-container {*/
     /*justify-content: flex-start | flex-end | center | space-between | space-around;*/
