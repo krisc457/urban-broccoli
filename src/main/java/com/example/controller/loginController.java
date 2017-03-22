@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -64,7 +65,7 @@ public class loginController {
             return new ModelAndView("signUp").addObject("user", user);
         }
         repository.addUser(user.getFirstname(), user.getLastname(), user.getMail(), user.getUsername(), user.getPassword());
-        return new ModelAndView("lobby")
+        return new ModelAndView("redirect:/index.html")
                 .addObject("FirstName", user.getFirstname())
                 .addObject("LastName", user.getLastname())
                 .addObject("Email", user.getMail())
@@ -76,5 +77,18 @@ public class loginController {
     public ModelAndView thread (@PathVariable long id) throws Exception {
         List<Post> posts = iUser.listPosts();
         return new ModelAndView("thread").addObject("posts", posts);
+    }
+
+    @PostMapping("/thread/{id}")
+    public ModelAndView comment(@PathVariable int id, @RequestParam String text, @RequestParam long userId) throws Exception {
+
+        Thread thread = repository.getThread(id);
+        repository.addPost(text,id);
+
+        return new ModelAndView("blog/post")
+                .addObject("text", text)
+                .addObject("thread", thread);
+                /*.addObject("comments", blogRepository.getCommentsFor(post))
+                .addObject("author", blogRepository.getAuthorOf(blog));*/
     }
 }

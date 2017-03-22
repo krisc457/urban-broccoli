@@ -56,6 +56,20 @@ public class Repository implements IUser {
     }
 
     @Override
+    public void addPost(String text, long threadId) throws SQLException {
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[posts](text, threadId, userId)VALUES (?,?, ?)", new String[]{"Id"})) {
+            ps.setString(1, text);
+            ps.setLong(2, threadId);
+            ps.setLong(3, 2);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
+    }
+
+    @Override
     public List<Thread> listThreads() throws Exception {
         try (Connection conn = dataSource.getConnection();
              Statement stmt = conn.createStatement();
@@ -122,5 +136,6 @@ public class Repository implements IUser {
                 rs.getLong("userId")
         );
     }
+
 }
 

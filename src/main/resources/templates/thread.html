@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
+    <link href="/cssfil.css" rel="stylesheet" type="text/css"/>
     <meta charset="UTF-8"/>
     <ul>
         <li th:each="post : ${posts}">
            <a th:text="${post.text}"/>
         </li>
     </ul>
+<form action="/thread/{id}" method="post">
+    Inlägg <textarea name="text" rows="10" cols="50"></textarea>
+    <!--    <input type="hidden" name="id" th:value="${thread.threadId}"/>
+
+        <input type="hidden" name="userId" th:value="${user.userId}"/>
+    -->
+    <input type="submit" value="Skicka"/>
+</form>
+
+
 </head>
 <body>
 
