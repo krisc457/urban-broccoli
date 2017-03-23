@@ -22,7 +22,10 @@ body {
 }
 #main {
     width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
     background-color: lightgreen;
+    margin-top: 40px;
 }
 
 form {
@@ -38,7 +41,6 @@ a:link {
 a:hover {
     color: black
 }
-
 input {
     color: lightgray;
     background-color: white;
@@ -74,6 +76,9 @@ input {
 img{
     /*margin-top:5%;*/
     width: 40%;
+}
+ul {
+    margin-top: 50px;
 }
 li {
     list-style: none;

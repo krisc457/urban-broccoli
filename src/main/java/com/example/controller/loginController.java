@@ -80,10 +80,10 @@ public class loginController {
     }
 
     @PostMapping("/thread/{threadId}")
-    public ModelAndView comment(@PathVariable long threadId, @RequestParam String text) throws Exception {
+    public ModelAndView comment(@PathVariable long threadId, @RequestParam String text, long userId) throws Exception {
 
         Thread thread = repository.getThread(threadId);
-        repository.addPost(text,threadId);
+        repository.addPost(text,threadId, userId);
         List<Post> posts = iUser.listPosts(threadId);
 
         return new ModelAndView("thread")

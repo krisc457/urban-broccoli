@@ -56,12 +56,12 @@ public class Repository implements IUser {
     }
 
     @Override
-    public void addPost(String text, long threadId) throws SQLException {
+    public void addPost(String text, long threadId, long userId) throws SQLException {
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[posts](text, threadId, userId)VALUES (?,?, ?)", new String[]{"Id"})) {
+             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[posts](text, threadId, userId)VALUES (?,?,?)", new String[]{"Id"})) {
             ps.setString(1, text);
             ps.setLong(2, threadId);
-            ps.setLong(3, 2);
+            ps.setLong(3, userId);
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -87,7 +87,7 @@ public class Repository implements IUser {
     @Override
     public List<Post> listPosts(long threadId) throws Exception {
         try (Connection conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT postId, text, threadId, userId FROM [dbo].[posts] WHERE threadid = ?")) {
+            PreparedStatement ps = conn.prepareStatement("SELECT forumUser.[userId], posts.threadId, posts.text, [Username], [postId] FROM [dbo].[forumUser] INNER JOIN posts on posts.[userid] = forumUser.userId WHERE threadid = ?")) {
             ps.setLong(1, threadId);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -138,9 +138,9 @@ public class Repository implements IUser {
                 rs.getLong("postId"),
                 rs.getString("text"),
                 rs.getLong("threadId"),
-                rs.getLong("userId")
+                rs.getLong("userId"),
+                rs.getString("username")
         );
     }
-
 }
 

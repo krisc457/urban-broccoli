@@ -12,7 +12,7 @@
     <ul>
         <li th:each="post : ${posts}">
            <a th:text="${post.text}"/>
-            <a th:text="${post.userId}"/>
+            <a th:text="${post.username}"/>
         </li>
     </ul>
 <form th:action="@{/thread/{id}(id=${threadId})}" method="post">

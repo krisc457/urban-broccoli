@@ -9,11 +9,13 @@ public class Post {
     public String text;
     public long threadId;
     public long userId;
+    public String username;
 
-    public Post(long postId, String text, long threadId, long userId) {
+    public Post(long postId, String text, long threadId, long userId, String username) {
         this.postId = postId;
         this.text = text;
         this.threadId = threadId;
         this.userId = userId;
+        this.username = username;
     }
 }
