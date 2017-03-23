@@ -35,7 +35,7 @@ public class loginController {
         if (login == null) {
             return new ModelAndView("redirect:/index.html");
         }
-            session.setAttribute("username", login.username);
+            session.setAttribute("user", login);
         return new ModelAndView("/lobby").addObject("UserName",Username).addObject("threads", iUser.listThreads());
     }
 
@@ -73,21 +73,24 @@ public class loginController {
                 .addObject("Password",user.getPassword());
     }
 
-    @GetMapping("/thread/{id}")
-    public ModelAndView thread (@PathVariable long id) throws Exception {
-        List<Post> posts = iUser.listPosts();
-        return new ModelAndView("thread").addObject("posts", posts);
+    @GetMapping("/thread/{threadId}")
+    public ModelAndView thread (@PathVariable long threadId) throws Exception {
+        List<Post> posts = iUser.listPosts(threadId);
+        return new ModelAndView("thread").addObject("posts", posts).addObject("threadId", threadId);
     }
 
-    @PostMapping("/thread/{id}")
-    public ModelAndView comment(@PathVariable int id, @RequestParam String text, @RequestParam long userId) throws Exception {
+    @PostMapping("/thread/{threadId}")
+    public ModelAndView comment(@PathVariable long threadId, @RequestParam String text) throws Exception {
 
-        Thread thread = repository.getThread(id);
-        repository.addPost(text,id);
+        Thread thread = repository.getThread(threadId);
+        repository.addPost(text,threadId);
+        List<Post> posts = iUser.listPosts(threadId);
 
-        return new ModelAndView("blog/post")
+        return new ModelAndView("thread")
                 .addObject("text", text)
-                .addObject("thread", thread);
+                .addObject("thread", thread)
+                .addObject("posts", posts)
+                .addObject("threadId", threadId);
                 /*.addObject("comments", blogRepository.getCommentsFor(post))
                 .addObject("author", blogRepository.getAuthorOf(blog));*/
     }

@@ -10,6 +10,6 @@ public interface IUser {
     void addUser(String Firstname, String Lastname, String Mail, String Username, String Password) throws Exception;
     List<Thread> listThreads() throws Exception;
     Thread getThread (long id) throws Exception;
-    List<Post> listPosts () throws Exception;
+    List<Post> listPosts (long threadId) throws Exception;
     void addPost(String text, long postId) throws Exception;
 }

@@ -23,7 +23,7 @@ public class Repository implements IUser {
     public UserLogin getUserLogin(String Username, String Password) throws Exception {
 
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT Username, Password FROM [dbo].[ForumUser] WHERE Username= ? AND Password= ?")) {
+             PreparedStatement ps = conn.prepareStatement("SELECT Username, Password, userId FROM [dbo].[ForumUser] WHERE Username= ? AND Password= ?")) {
             ps.setString(1, Username);
             ps.setString(2, Password);
 
@@ -85,17 +85,21 @@ public class Repository implements IUser {
     }
 
     @Override
-    public List<Post> listPosts() throws Exception {
+    public List<Post> listPosts(long threadId) throws Exception {
         try (Connection conn = dataSource.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT postId, text, threadId, userId FROM [dbo].[posts]")) {
-            List<Post> posts = new ArrayList<>();
+            PreparedStatement ps = conn.prepareStatement("SELECT postId, text, threadId, userId FROM [dbo].[posts] WHERE threadid = ?")) {
+            ps.setLong(1, threadId);
 
-            while (rs.next())
-                posts.add(rsPost(rs));
-            return posts;
-        } catch (SQLException e) {
-            throw new SQLException(e);
+            try (ResultSet rs = ps.executeQuery()) {
+
+                List<Post> posts = new ArrayList<>();
+
+                while (rs.next())
+                    posts.add(rsPost(rs));
+                return posts;
+            } catch (SQLException e) {
+                throw new SQLException(e);
+            }
         }
     }
 
@@ -107,7 +111,8 @@ public class Repository implements IUser {
     private UserLogin rsUserLogin(ResultSet rs) throws SQLException {
         return new UserLogin(
                 rs.getString("Username"),
-                rs.getString("Password")
+                rs.getString("Password"),
+                rs.getLong("userId")
         );
     }
 

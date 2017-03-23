@@ -6,20 +6,21 @@
 </head>
 <body>
 <header id="header">
-    Hej!!
+    Tråd: <span th:text="${title}"></span>
 </header>
 <div id="main">
     <ul>
         <li th:each="post : ${posts}">
            <a th:text="${post.text}"/>
+            <a th:text="${post.userId}"/>
         </li>
     </ul>
-<form action="/thread/{id}" method="post">
+<form th:action="@{/thread/{id}(id=${threadId})}" method="post">
     Inlägg <textarea name="text" rows="10" cols="50"></textarea>
-    <!--    <input type="hidden" name="id" th:value="${thread.threadId}"/>
+    <!--<input type="hidden" name="id" th:value="${thread.threadId}"/>-->
 
-        <input type="hidden" name="userId" th:value="${user.userId}"/>
-    -->
+    <input type="hidden" name="userId" th:value="${session.user.userId}"/>
+
     <input type="submit" value="Skicka"/>
 </form>
 </div>
