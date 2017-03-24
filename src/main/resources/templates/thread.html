@@ -6,19 +6,19 @@
 </head>
 <body>
 <header id="header">
-    <p><a href="/login" value="Tillbaka">Lobby
-    </a></p>
-    <p th:text="${thread.title}"></p>
+    <a href="/login" value="Tillbaka">Lobby
+    </a><a th:text="${thread.title}"></a>
 </header>
 <div id="main">
     <form id="formThread" th:action="@{/thread/{id}(id=${threadId})}" method="post">
-        <p>Inlägg om ämnet</p>
-        <textarea name="text" rows="10" cols="50"></textarea>
+    <p>Inlägg om ämnet</p>
+    <textarea name="text" rows="10" cols="50"></textarea>
 
-        <input type="hidden" name="userId" th:value="${session.user.userId}"/>
-        <p><input type="submit" value="Skicka"/></p>
+    <input type="hidden" name="userId" th:value="${session.user.userId}"/>
+    <p><input type="submit" value="Skicka"/></p>
     </form>
-
+</div>
+<div id="rull">
     <div id="maindiv" th:each="post : ${posts}">
         <div id="seconddiv">
         <a th:text="${post.text}"/>
@@ -32,5 +32,6 @@
     </div>
 
 </div>
+<footer>©urban broccoli</footer>
 </body>
 </html>
