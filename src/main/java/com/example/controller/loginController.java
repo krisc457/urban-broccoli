@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class loginController {
     public ModelAndView comment(@PathVariable long threadId, @RequestParam String text, long userId) throws Exception {
 
         Thread thread = repository.getThread(threadId);
-        repository.addPost(text,threadId, userId);
+        repository.addPost(text, threadId, userId, new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
         List<Post> posts = iUser.listPosts(threadId);
 
         return new ModelAndView("thread")

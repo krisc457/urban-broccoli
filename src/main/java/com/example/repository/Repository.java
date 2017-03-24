@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,12 +57,13 @@ public class Repository implements IUser {
     }
 
     @Override
-    public void addPost(String text, long threadId, long userId) throws SQLException {
+    public void addPost(String text, long threadId, long userId, java.sql.Date date) throws SQLException {
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[posts](text, threadId, userId)VALUES (?,?,?)", new String[]{"Id"})) {
+             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[posts](text, threadId, userId, entrydate)VALUES (?,?,?,?)", new String[]{"Id"})) {
             ps.setString(1, text);
             ps.setLong(2, threadId);
             ps.setLong(3, userId);
+            ps.setDate(4, date);
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -87,7 +89,7 @@ public class Repository implements IUser {
     @Override
     public List<Post> listPosts(long threadId) throws Exception {
         try (Connection conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT forumUser.[userId], posts.threadId, posts.text, [Username], [postId] FROM [dbo].[forumUser] INNER JOIN posts on posts.[userid] = forumUser.userId WHERE threadid = ?")) {
+            PreparedStatement ps = conn.prepareStatement("SELECT forumUser.[userId], posts.threadId, posts.text, [Username], [postId], posts.entrydate FROM [dbo].[forumUser] INNER JOIN posts on posts.[userid] = forumUser.userId WHERE threadid = ? ORDER BY posts.entrydate DESC")) {
             ps.setLong(1, threadId);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -139,7 +141,8 @@ public class Repository implements IUser {
                 rs.getString("text"),
                 rs.getLong("threadId"),
                 rs.getLong("userId"),
-                rs.getString("username")
+                rs.getString("username"),
+                rs.getTimestamp("entrydate").toLocalDateTime()
         );
     }
 }

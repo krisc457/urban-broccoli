@@ -6,15 +6,30 @@
 </head>
 <body>
 <header id="header">
-    Tråd: <span th:text="${title}"></span>
+
+    <!--<a href="/lobby.html" value="Tillbaka">-->
+    <!--</a>-->
+    <!--Tråd: <span th:text="${title}"></span>-->
 </header>
 <div id="main">
-    <ul>
-        <li th:each="post : ${posts}">
-           <a th:text="${post.text}"/>
-            <a th:text="${post.username}"/>
-        </li>
-    </ul>
+
+    <div id="maindiv" th:each="post : ${posts}">
+        <div id="seconddiv">
+        <a th:text="${post.text}"/>
+        </div>
+        <div id="comment">
+        Skrivet av: <a th:text="${post.username}"/>
+        </div>
+        <div id="timediv">
+        <time th:datetime="${post.entrydate}" th:text="${post.entrydate.toLocalDate()} + ' ' + ${post.entrydate.toLocalTime()}"/>
+        </div>
+    </div>
+    <!--<ul>-->
+        <!--<li th:each="post : ${posts}">-->
+           <!--<a th:text="${post.text}"/>-->
+            <!--<a th:text="${post.username}"/>-->
+        <!--</li>-->
+    <!--</ul>-->
 <form th:action="@{/thread/{id}(id=${threadId})}" method="post">
     Inlägg <textarea name="text" rows="10" cols="50"></textarea>
     <!--<input type="hidden" name="id" th:value="${thread.threadId}"/>-->

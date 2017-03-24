@@ -11,5 +11,5 @@ public interface IUser {
     List<Thread> listThreads() throws Exception;
     Thread getThread (long id) throws Exception;
     List<Post> listPosts (long threadId) throws Exception;
-    void addPost(String text, long postId, long userId) throws Exception;
+    void addPost(String text, long postId, long userId, java.sql.Date date) throws Exception;
 }

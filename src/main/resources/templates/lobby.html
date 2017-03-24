@@ -8,22 +8,20 @@
 </head>
 
 <body>
-<div class="flex-container">
+<div id="superdiv">
+<div id="parent">
     <h1>Välkomen till din lobby, <span th:text="${UserName} "></span>!</h1>
     <h2>Vad vill du läsa om?</h2>
 
-    <div class="child">
-        <ul>
-            <li th:each="thread : ${threads}">
-                <a th:href="@{/thread/{threadId}/(threadId=${thread.threadId})}" th:text="${thread.title}" />
-            </li>
-        </ul>
+    <div id="child">
+        <div th:each="thread : ${threads}">
+            <a th:href="@{/thread/{threadId}/(threadId=${thread.threadId})}" th:text="${thread.title}"></a>
+        </div>
     </div>
     <a href="/index.html">
         <button class="buttons" type="submit">Logout</button>
     </a>
-    <div class="child">
-    </div>
+</div>
 </div>
 </body>
 <script src="data.js" type="text/javascript"></script>
