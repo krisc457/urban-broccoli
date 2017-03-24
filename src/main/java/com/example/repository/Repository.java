@@ -57,13 +57,12 @@ public class Repository implements IUser {
     }
 
     @Override
-    public void addPost(String text, long threadId, long userId, java.sql.Date date) throws SQLException {
+    public void addPost(String text, long threadId, long userId) throws SQLException {
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[posts](text, threadId, userId, entrydate)VALUES (?,?,?,?)", new String[]{"Id"})) {
+             PreparedStatement ps = conn.prepareStatement("INSERT INTO [dbo].[posts](text, threadId, userId)VALUES (?,?,?)", new String[]{"Id"})) {
             ps.setString(1, text);
             ps.setLong(2, threadId);
             ps.setLong(3, userId);
-            ps.setDate(4, date);
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -106,8 +105,17 @@ public class Repository implements IUser {
     }
 
     @Override
-    public Thread getThread(long id) {
-        return null;
+    public Thread getThread(long id) throws Exception{
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT threadid, title FROM threads WHERE threadid = ?")) {
+            ps.setLong(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) throw new SQLException();
+                else return rsThread(rs);
+            }
+        } catch (SQLException e) {
+            throw new SQLException(e);
+        }
     }
 
     private UserLogin rsUserLogin(ResultSet rs) throws SQLException {

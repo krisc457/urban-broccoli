@@ -77,14 +77,17 @@ public class loginController {
     @GetMapping("/thread/{threadId}")
     public ModelAndView thread (@PathVariable long threadId) throws Exception {
         List<Post> posts = iUser.listPosts(threadId);
-        return new ModelAndView("thread").addObject("posts", posts).addObject("threadId", threadId);
+        return new ModelAndView("thread")
+                .addObject("posts", posts)
+                .addObject("threadId", threadId)
+                .addObject("thread", iUser.getThread(threadId));
     }
 
     @PostMapping("/thread/{threadId}")
     public ModelAndView comment(@PathVariable long threadId, @RequestParam String text, long userId) throws Exception {
 
         Thread thread = repository.getThread(threadId);
-        repository.addPost(text, threadId, userId, new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        repository.addPost(text, threadId, userId);
         List<Post> posts = iUser.listPosts(threadId);
 
         return new ModelAndView("thread")
@@ -92,7 +95,6 @@ public class loginController {
                 .addObject("thread", thread)
                 .addObject("posts", posts)
                 .addObject("threadId", threadId);
-                /*.addObject("comments", blogRepository.getCommentsFor(post))
-                .addObject("author", blogRepository.getAuthorOf(blog));*/
+
     }
 }

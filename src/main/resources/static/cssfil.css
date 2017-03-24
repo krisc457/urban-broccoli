@@ -1,7 +1,6 @@
 h1 {
     color: white;
     font-size: 38px;
-    /*font-family: "Segoe Script"*/
 }
 h2 {
     color: white;
@@ -10,7 +9,7 @@ h2 {
 h3 {
     color: white;
     margin-bottom: 10px;
-    margin-top: 20%;
+    margin-top: 5%;
 }
 
 body {
@@ -18,7 +17,6 @@ body {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    /*width: 40%*/
 }
 
 #superdiv {
@@ -32,9 +30,6 @@ body {
 
 #parent {
     width: 100%;
-    /*margin-left: 20%;*/
-    /*margin-right: 20%;*/
-
 }
 #child {
     width: 100%;
@@ -46,7 +41,6 @@ body {
     width: 60%;
     margin-left: 20%;
     margin-right: 20%;
-    /*background-color: lightgreen;*/
     margin-top: 60px;
 }
 
@@ -70,10 +64,20 @@ body {
     text-align: left;
 }
 
-form {
+#formIndex {
     color: white;
     /*font-family: ""*/
     margin-top: 15px;
+}
+#formThread {
+    color: white;
+    /*font-family: ""*/
+    margin-top: 145px;
+}
+
+#threadHeader {
+    color: black;
+    text-align: center;
 }
 
 textarea {
@@ -115,7 +119,8 @@ input {
     left: 0;
     z-index: 99;
     width: 100%;
-    /*height: 40px;*/
+    text-align: left;
+    padding-left: 20px;
     font-size: xx-large;
     background-color: mediumseagreen;
 }
@@ -133,20 +138,6 @@ li {
 
 #maindiv {
     border: solid;
-}
-/*.flex-container {*/
-    /*justify-content: flex-start | flex-end | center | space-between | space-around;*/
-/*}*/
 
-/*.child {*/
-    /*background: tomato;*/
-    /*padding: 5px;*/
-    /*width: 200px;*/
-    /*height: 150px;*/
-    /*margin-top: 10px;*/
-    /*line-height: 150px;*/
-    /*color: white;*/
-    /*font-weight: bold;*/
-    /*font-size: 3em;*/
-    /*text-align: center;*/
-/*}*/
+}
+

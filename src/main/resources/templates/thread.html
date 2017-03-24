@@ -6,12 +6,18 @@
 </head>
 <body>
 <header id="header">
-
-    <!--<a href="/lobby.html" value="Tillbaka">-->
-    <!--</a>-->
-    <!--Tråd: <span th:text="${title}"></span>-->
+    <p><a href="/login" value="Tillbaka">Lobby
+    </a></p>
+    <p th:text="${thread.title}"></p>
 </header>
 <div id="main">
+    <form id="formThread" th:action="@{/thread/{id}(id=${threadId})}" method="post">
+        <p>Inlägg om ämnet</p>
+        <textarea name="text" rows="10" cols="50"></textarea>
+
+        <input type="hidden" name="userId" th:value="${session.user.userId}"/>
+        <p><input type="submit" value="Skicka"/></p>
+    </form>
 
     <div id="maindiv" th:each="post : ${posts}">
         <div id="seconddiv">
@@ -21,23 +27,10 @@
         Skrivet av: <a th:text="${post.username}"/>
         </div>
         <div id="timediv">
-        <time th:datetime="${post.entrydate}" th:text="${post.entrydate.toLocalDate()} + ' ' + ${post.entrydate.toLocalTime()}"/>
+        <time th:datetime="${post.entrydate}" th:text="${post.date}"/>
         </div>
     </div>
-    <!--<ul>-->
-        <!--<li th:each="post : ${posts}">-->
-           <!--<a th:text="${post.text}"/>-->
-            <!--<a th:text="${post.username}"/>-->
-        <!--</li>-->
-    <!--</ul>-->
-<form th:action="@{/thread/{id}(id=${threadId})}" method="post">
-    Inlägg <textarea name="text" rows="10" cols="50"></textarea>
-    <!--<input type="hidden" name="id" th:value="${thread.threadId}"/>-->
 
-    <input type="hidden" name="userId" th:value="${session.user.userId}"/>
-
-    <input type="submit" value="Skicka"/>
-</form>
 </div>
 </body>
 </html>

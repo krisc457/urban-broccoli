@@ -10,7 +10,7 @@
 <body>
 <div id="superdiv">
 <div id="parent">
-    <h1>Välkomen till din lobby, <span th:text="${UserName} "></span>!</h1>
+    <h1>Välkomen till din lobby, <span th:text="${session.user.username} "></span>!</h1>
     <h2>Vad vill du läsa om?</h2>
 
     <div id="child">
